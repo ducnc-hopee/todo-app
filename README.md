@@ -36,19 +36,22 @@ npm install
 npm run start
 ```
 
-# Run TodoApp Step by Step
+# ▶️ Run TodoApp Step by Step
 1. Set up the backend as described above.
 2. Open Docker Desktop and ensure the todo_app services (todo_api and mongo_db) are running.
 3. Open Postman and import the TODO.postman_collection.json file to test available APIs.
 4. Set up and start the frontend.
 5. Start coding! ✨
 
-# Table of contents
+# 📚 Table of contents
 - [Coding conventions](readme/coding-conventions.md)
 - [Practice rules](readme/practice-rules.md)
 
 # 📦 Tech Stack
 Backend: Node.js, Express, MongoDB, Mongoose
+
 Frontend: HTML5, CSS3, JS(ES6+)
+
 Containerization: Docker, Docker Compose
+
 Testing: Postman
