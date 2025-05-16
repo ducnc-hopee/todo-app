@@ -1,12 +1,12 @@
 # ✅ TODO APPLICATION
 ## 📋 Requirements
-[Requirements](https://www.notion.so/II-JavaScript-ES6-TS-1f0f6c6becc7808da7cefeb991cb144a?pvs=4#cf71e7e1f90a4e0a93b4135ee98808eb)
-[Expect result](https://v0-todo-app-features-brown.vercel.app/)
+- [Requirements](https://www.notion.so/II-JavaScript-ES6-TS-1f0f6c6becc7808da7cefeb991cb144a?pvs=4#cf71e7e1f90a4e0a93b4135ee98808eb)
+- [Expect result](https://v0-todo-app-features-brown.vercel.app/)
 
 ## 🧰 Tools & Resources
-[Repository](https://github.com/ducnc-hopee/todo-app)
-[Containerization software](https://www.docker.com/products/docker-desktop/)
-[Testing API (Postman)](https://www.postman.com/downloads/)
+- [Repository](https://github.com/ducnc-hopee/todo-app)
+- [Containerization software](https://www.docker.com/products/docker-desktop/)
+- [Testing API (Postman)](https://www.postman.com/downloads/)
 
 # Get Started
 ## 📦 Backend (BE)
