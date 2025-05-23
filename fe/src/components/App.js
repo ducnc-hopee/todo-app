@@ -10,7 +10,8 @@ import { todoService } from '../service/todoService.js';
 
 let state = {
     todos: [],
-    currentFilter: localStorage.getItem('selectedTab') || 'all',
+    //currentFilter: localStorage.getItem('selectedTab') || 'all',
+    currentFilter: window.location.hash.replace('#', '') || 'all',
     currentTodoId: null,
     isAddModalOpen: false,
     isEditModalOpen: false,
@@ -96,7 +97,8 @@ function renderTodoList() {
 
 function changeFilter(filter) {
     state.currentFilter = filter;
-    localStorage.setItem('selectedTab', filter);
+    //localStorage.setItem('selectedTab', filter);
+    location.hash = `#${filter}`;
     renderTodoList();
 }
 

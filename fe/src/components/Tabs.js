@@ -18,7 +18,9 @@ export function Tabs({ currentFilter, onFilterChange }) {
       tab.classList.add('active');
       const selectedFilter = tab.dataset.filter;
 
-      localStorage.setItem('selectedTab', selectedFilter);
+      // localStorage.setItem('selectedTab', selectedFilter);
+
+      window.location.hash = `#${selectedFilter}`;
 
       onFilterChange(selectedFilter)
     });
