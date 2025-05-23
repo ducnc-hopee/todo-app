@@ -1,5 +1,6 @@
-import { zeroPad } from "./utils/number";
 import './styles/main.css';
-import './components/header'
+import { renderApp } from './components/App.js';
 
-console.log(zeroPad(1, 2));
+document.addEventListener('DOMContentLoaded', () => {
+  renderApp();
+});
