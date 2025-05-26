@@ -1,6 +1,9 @@
 import { TaskList } from '../../TaskList';
 import { state } from '../../../state/appState';
 import { TTab } from '../../../constants/tab';
+import { toggleTodoComplete, deleteTodo } from './taskHandlers';
+import { publish } from '../../../utils/customEventPubSub';
+import { EVENTS } from '../../../constants/customEvent';
 
 export function renderTodoList() 
 {
@@ -19,7 +22,7 @@ export function changeFilter(filter: TTab)
   renderTodoList();
 }
 
-import { toggleTodoComplete, deleteTodo } from './taskHandlers';
+
 function toggleTodoCompleteWrapper(todoId: string, isCompleted: boolean) 
 {
   toggleTodoComplete(todoId, isCompleted);
@@ -41,7 +44,7 @@ export function showTodoOptions(event: MouseEvent, todoId: string) {
 
   viewBtn.onclick = () => {
     menu.style.display = 'none';
-    document.dispatchEvent(new CustomEvent('openViewModal', { detail: todoId }));
+    publish(EVENTS.OPEN_MODAL, todoId)
   };
 
   editBtn.onclick = () => {

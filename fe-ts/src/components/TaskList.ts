@@ -58,10 +58,10 @@ export function TaskList({ todos, filter, onToggleComplete, onShowOptions }: Tas
   todoListContainer.innerHTML = html;
 
   filteredTodos.forEach((todo) => {
-    const todoItem = todoListContainer.querySelector(`.todo-item[data-id="${todo._id}"]`) as HTMLElement | null;
+    const todoItem = todoListContainer.querySelector(`.todo-item[data-id="${todo._id}"]`);
     if (!todoItem) return;
 
-    const checkbox = todoItem.querySelector('input[type="checkbox"]') as HTMLInputElement | null;
+    const checkbox = todoItem.querySelector('input[type="checkbox"]') as HTMLInputElement | null
     if (checkbox) {
       checkbox.addEventListener('change', () => onToggleComplete(todo._id, checkbox.checked));
     }

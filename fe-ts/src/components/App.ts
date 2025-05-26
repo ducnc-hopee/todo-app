@@ -1,20 +1,33 @@
-import { Header } from './Header';
-import { TaskHeader } from './TaskHeader';
-import { Tabs } from './Tabs';
-import { AddTaskModal } from './modals/AddTaskModal';
-import { EditModal } from './modals/EditModal';
-import { ViewTaskModal } from './modals/ViewTaskModal';
+import { Header } from "./Header";
+import { TaskHeader } from "./TaskHeader";
+import { Tabs } from "./Tabs";
+import { AddTaskModal } from "./modals/AddTaskModal";
+import { EditModal } from "./modals/EditModal";
+import { ViewTaskModal } from "./modals/ViewTaskModal";
 
-import { fetchTodos } from './modals/handlers/taskHandlers';
-import { openAddTaskModal, closeAddTaskModal, openEditModal, closeEditModal, closeViewModal, openViewModal } from './modals/handlers/modalHandlers';
-import { changeFilter } from './modals/handlers/uiHandlers';
+import { fetchTodos } from "./modals/handlers/taskHandlers";
+import {
+  openAddTaskModal,
+  closeAddTaskModal,
+  openEditModal,
+  closeEditModal,
+  closeViewModal,
+  openViewModal,
+} from "./modals/handlers/modalHandlers";
+import { changeFilter } from "./modals/handlers/uiHandlers";
 import { state } from "../state/appState";
-import { handleAddTask, handleUpdateTask } from './modals/handlers/taskHandlers';
+import {
+  handleAddTask,
+  handleUpdateTask,
+} from "./modals/handlers/taskHandlers";
+import { subscribe } from "../utils/customEventPubSub";
+import { EVENTS } from "../constants/customEvent";
 
 export function renderApp() {
-  const appContainer = document.getElementById('app') as HTMLDivElement;
+  const appContainer = document.getElementById("app");
+  // if(!appContainer) return;
 
-  appContainer.innerHTML = `
+  appContainer!.innerHTML = `
     <div id="headerContainer"></div>
     <main>
       <div id="taskHeaderContainer"></div>
@@ -32,9 +45,10 @@ export function renderApp() {
       </ul>
     </div>
   `;
+  appContainer!.innerHTML = "1"
 
   Header();
-  TaskHeader({ onAddClick: openAddTaskModal});
+  TaskHeader({ onAddClick: openAddTaskModal });
   Tabs({ currentFilter: state.currentFilter, onFilterChange: changeFilter });
 
   fetchTodos();
@@ -43,24 +57,16 @@ export function renderApp() {
   EditModal({ onSubmit: handleUpdateTask, onClose: closeEditModal });
   ViewTaskModal({ onClose: closeViewModal });
 
-  document.addEventListener('openViewModal', ((event: CustomEvent) => {
-    openViewModal(event.detail);
-  }) as EventListener);
+  subscribe(EVENTS.OPEN_MODAL, openViewModal);
 
-  document.addEventListener('openEditModal', ((event: CustomEvent) => {
-    openEditModal(event.detail);
-  }) as EventListener);
+  document.addEventListener("click", (e: MouseEvent) => {
+    if (!e.target) return;
+    const currentElement = e.target as HTMLElement;
+    const taskOptionsMenu = document.getElementById("taskOptionsMenu");
+    if (!taskOptionsMenu) return;
+    if (taskOptionsMenu.contains(currentElement)) return;
+    if (currentElement.classList.contains("todo-menu-btn")) return;
 
-  document.addEventListener('click', (e: MouseEvent) => {
-    const taskOptionsMenu = document.getElementById('taskOptionsMenu') as HTMLDivElement;
-    if (
-      taskOptionsMenu &&
-      e.target &&
-      !taskOptionsMenu.contains(e.target as Node) &&
-      !(e.target as HTMLElement).classList.contains('todo-menu-btn')
-    ) {
-      taskOptionsMenu.style.display = 'none';
-    }
+    taskOptionsMenu.style.display = "none";
   });
 }
-  
