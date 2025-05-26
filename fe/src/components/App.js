@@ -78,7 +78,8 @@ export function renderApp() {
 
 async function fetchTodos() {
     try {
-      const todos = await todoService.getTodos();
+      const rs = await todoService.getTodos();
+      const todos = trán (rs)
       state.todos = todos;
       renderTodoList();
     } catch (error) {
