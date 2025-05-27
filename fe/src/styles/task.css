@@ -1,0 +1,139 @@
+li{
+    list-style: none;
+}
+.task-card-incomplete {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #fff;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  margin-right: 25px;
+}
+
+.task-card-complete {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: #ededed;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  margin-right: 25px;
+}
+
+.task-card-complete .task-title{
+    text-decoration: line-through;
+    font-size: 1.5rem;
+    margin: 0 0 0.3rem;
+    color: rgb(86, 86, 86)
+    
+}
+
+
+.task-card-incomplete:hover{
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+
+.task-card-complete:hover{
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+.options{
+    text-align: center;
+    vertical-align: center;
+    margin: 5px;
+    position: relative;
+
+}
+.option-btn{
+    border-radius: 15px;
+    height: 45px;
+    transition: all 0.3s ease;
+    width: 50px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.option-btn:hover{
+    background-color: lightgrey;
+    border-radius: 15px;
+    
+}
+.done-btn:hover{
+    background-color: white;
+}
+
+.done-btn{
+    font-size: 15px;
+    padding: 10px;
+    height: 100%;
+    width : 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.undo-btn{
+    font-size: 15px;
+    padding: 10px;
+    height: 100%;
+    width : 100px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+
+.task-card-incomplete .task-title {
+  font-size: 1.5rem;
+  margin: 0 0 0.3rem;
+}
+
+.task-desc {
+  color: #555;
+  margin: 0;
+}
+
+
+.task-options-modal {
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  padding: 0.5rem;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  top: 120px;
+  
+}
+
+
+.task-options-modal.hidden {
+  display: none;
+}
+
+.task-options-modal button {
+  background-color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.task-options-modal button:hover {
+  background-color: #ddd;
+}
