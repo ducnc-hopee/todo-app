@@ -12,30 +12,29 @@ let saveListenerAdded = false;
 export function viewDetails() {
   document.querySelector(".task-list").addEventListener("click", async (e) => {
     const btn = e.target.closest(".view-btn");
-    if (btn) {
-      try {
-        const taskId = btn.getAttribute("data-id");
-        const task = await getTodoById(taskId);
-        const status = task.todo.isCompleted;
+    if (!btn) return;
+    try {
+      const taskId = btn.getAttribute("data-id");
+      const task = await getTodoById(taskId);
+      const status = task.todo.isCompleted;
 
-        document
-          .querySelectorAll(".edit-modal-overlay")
-          .forEach((m) => m.remove());
-        document
-          .querySelectorAll(".view-modal-overlay")
-          .forEach((m) => m.remove());
+      document
+        .querySelectorAll(".edit-modal-overlay")
+        .forEach((m) => m.remove());
+      document
+        .querySelectorAll(".view-modal-overlay")
+        .forEach((m) => m.remove());
 
-        if (task && status == false) {
-          const modalHTML = viewIncompleteModal(task);
-          document.body.insertAdjacentHTML("beforeend", modalHTML);
-        } else if (task && status == true) {
-          const modalHTML = viewCompleteModal(task);
-          document.body.insertAdjacentHTML("beforeend", modalHTML);
-        }
-      } catch (err) {
-        console.error("Error displaying task details:", err);
-        alert("Failed to load task details. Please try again later.");
+      if (task && status == false) {
+        const modalHTML = viewIncompleteModal(task);
+        document.body.insertAdjacentHTML("beforeend", modalHTML);
+      } else if (task && status == true) {
+        const modalHTML = viewCompleteModal(task);
+        document.body.insertAdjacentHTML("beforeend", modalHTML);
       }
+    } catch (err) {
+      console.error("Error displaying task details:", err);
+      alert("Failed to load task details. Please try again later.");
     }
   });
 }
