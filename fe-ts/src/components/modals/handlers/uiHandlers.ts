@@ -44,12 +44,12 @@ export function showTodoOptions(event: MouseEvent, todoId: string) {
 
   viewBtn.onclick = () => {
     menu.style.display = 'none';
-    publish(EVENTS.OPEN_MODAL, todoId)
+    publish(EVENTS.OPEN_VIEW_MODAL, todoId)
   };
 
   editBtn.onclick = () => {
     menu.style.display = 'none';
-    document.dispatchEvent(new CustomEvent('openEditModal', { detail: todoId }));
+    publish(EVENTS.OPEN_EDIT_MODAL, todoId);
   };
 
   deleteBtn.onclick = () => {

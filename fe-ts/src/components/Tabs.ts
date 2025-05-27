@@ -1,4 +1,4 @@
-import { TTab } from "../constants/tab";
+import { TABS, TTab, TAB_LABELS } from "../constants/tab";
 
 //type FilterType = TTab;
 
@@ -6,12 +6,16 @@ export function Tabs({ currentFilter, onFilterChange }: { currentFilter: TTab; o
 {
     const tabsContainer = document.getElementById('tabsContainer') as HTMLDivElement;
 
+    const tabsHTML = Object.entries(TABS).map(([key, value]) => `
+    <button class="tab ${currentFilter === value ? 'active' : ''}" data-filter="${value}">
+          ${TAB_LABELS[value]}
+        </button>
+    `).join('');
+
     tabsContainer.innerHTML = `
-    <div class="tabs">
-      <button class="tab ${currentFilter === 'all' ? 'active' : ''}" data-filter="all">All</button>
-      <button class="tab ${currentFilter === 'incomplete' ? 'active' : ''}" data-filter="incomplete">Incomplete</button>
-      <button class="tab ${currentFilter === 'complete' ? 'active' : ''}" data-filter="complete">Complete</button>
-    </div>
+      <div class="tabs">
+        ${tabsHTML}
+      </div>
   `;
 
   const tabs = tabsContainer.querySelectorAll('.tab') as NodeListOf<HTMLButtonElement>;
@@ -21,11 +25,11 @@ export function Tabs({ currentFilter, onFilterChange }: { currentFilter: TTab; o
       tab.classList.add('active');
       const selectedFilter = tab.dataset.filter as TTab;
 
-      // localStorage.setItem('selectedTab', selectedFilter);
+        // localStorage.setItem('selectedTab', selectedFilter);
 
-      window.location.hash = `#${selectedFilter}`;
+        window.location.hash = `#${selectedFilter}`;
 
-      onFilterChange(selectedFilter);
+        onFilterChange(selectedFilter);
+      });
     });
-  });
 }

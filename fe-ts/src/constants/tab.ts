@@ -1,13 +1,13 @@
-export const TABS = Object.freeze({
+export const TABS = {
     ALL: 'all',
-    INPROCESS: 'complete',
-    COMPLETED: 'incomplete'
-})
+    INCOMPLETE: 'incomplete',
+    COMPLETE: 'complete'
+} as const;
 
 export type TTab = typeof TABS[keyof typeof TABS];
 
-export const TAB_LABELS = Object.freeze({
-    [TABS.ALL]: 'ALL',
-    [TABS.INPROCESS]: '2',
-    [TABS.COMPLETED]: '3'
-})
+export const TAB_LABELS: Record<TTab, string> = {
+    [TABS.ALL]: 'All',
+    [TABS.INCOMPLETE]: 'Incomplete',
+    [TABS.COMPLETE]: 'Complete'
+};

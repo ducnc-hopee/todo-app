@@ -181,8 +181,6 @@ exports.completeTodo = (req, res, next) => {
     const todoId = req.params.todoId;
     const isCompleted = req.body.isCompleted;
 
-    console.log('Backend: Received PATCH request for todo:', todoId);
-    console.log('Backend: Received isCompleted value:', isCompleted);
 
     // Execute Update
     Todo.findOneAndUpdate({
@@ -196,7 +194,7 @@ exports.completeTodo = (req, res, next) => {
         })
         .then(
             updatedTodo => {
-                console.log('Backend: Mongoose findOneAndUpdate result:', updatedTodo);
+           
                 res.status(201).json({
                     'status': 'Success',
                     'message': `Todo ${isCompleted ? 'Marked as Completed' : 'Marked as Incomplete'}!`,
@@ -206,7 +204,7 @@ exports.completeTodo = (req, res, next) => {
         )
         .catch(
             error => {
-                console.error('Backend: Error during findOneAndUpdate:', error);
+              
                 res.status(500).json({
                     'status': 'Error',
                     'message': 'Error in DB Operation!',

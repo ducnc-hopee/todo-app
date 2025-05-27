@@ -4,6 +4,7 @@ import { Tabs } from "./Tabs";
 import { AddTaskModal } from "./modals/AddTaskModal";
 import { EditModal } from "./modals/EditModal";
 import { ViewTaskModal } from "./modals/ViewTaskModal";
+import { initModal, initModal1 } from "./modals/helpers/initModal";
 
 import { fetchTodos } from "./modals/handlers/taskHandlers";
 import {
@@ -25,10 +26,10 @@ import { EVENTS } from "../constants/customEvent";
 
 export function renderApp() {
   const appContainer = document.getElementById("app");
-  // if(!appContainer) return;
+  if(!appContainer) return;
 
   appContainer!.innerHTML = `
-    <div id="headerContainer"></div>
+    <div id="headerContainer">${Header()}</div>
     <main>
       <div id="taskHeaderContainer"></div>
       <div id="tabsContainer"></div>
@@ -45,19 +46,21 @@ export function renderApp() {
       </ul>
     </div>
   `;
-  appContainer!.innerHTML = "1"
 
-  Header();
-  TaskHeader({ onAddClick: openAddTaskModal });
+  //TaskHeader({ onAddClick: openAddTaskModal });
+  initModal1(TaskHeader, {onAddClick: openAddTaskModal});
   Tabs({ currentFilter: state.currentFilter, onFilterChange: changeFilter });
 
   fetchTodos();
 
-  AddTaskModal({ onSubmit: handleAddTask, onClose: closeAddTaskModal });
-  EditModal({ onSubmit: handleUpdateTask, onClose: closeEditModal });
-  ViewTaskModal({ onClose: closeViewModal });
+  initModal(AddTaskModal, {onSubmit: handleAddTask, onClose: closeAddTaskModal});
+  initModal(EditModal, {onSubmit: handleUpdateTask, onClose: closeEditModal});
+  initModal(ViewTaskModal, {onClose: closeViewModal});
 
-  subscribe(EVENTS.OPEN_MODAL, openViewModal);
+  subscribe(EVENTS.OPEN_EDIT_MODAL, openEditModal);
+  subscribe(EVENTS.OPEN_VIEW_MODAL, openViewModal);
+  
+ 
 
   document.addEventListener("click", (e: MouseEvent) => {
     if (!e.target) return;

@@ -1,4 +1,5 @@
 import { Todo } from '../service/dtos/responses/todo.response';
+import { TABS } from "../constants/tab";
 
 type TaskListProps = {
   todos: Todo[];
@@ -12,10 +13,16 @@ export function TaskList({ todos, filter, onToggleComplete, onShowOptions }: Tas
   if (!todoListContainer) return;
 
   const filteredTodos = todos.filter((todo) => {
-    if (filter === 'all') return true;
-    if (filter === 'complete') return todo.isCompleted;
-    if (filter === 'incomplete') return !todo.isCompleted;
-    return true;
+    switch (filter) {
+      case TABS.ALL:
+        return true;
+      case TABS.COMPLETE:
+        return todo.isCompleted;
+      case TABS.INCOMPLETE:
+        return !todo.isCompleted;
+      default:
+        return true;
+    }
   });
 
   let html = '<div class="todo-list">';

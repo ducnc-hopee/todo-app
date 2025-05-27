@@ -1,8 +1,6 @@
 export function Header()
 {
-    const headerContainer = document.getElementById('headerContainer') as HTMLDivElement;
-
-    headerContainer.innerHTML = `
+    return `
         <header>
             <h1>Todo App</h1>
         </header>

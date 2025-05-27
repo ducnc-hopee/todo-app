@@ -41,6 +41,7 @@ export function EditModal({ onSubmit, onClose }: { onSubmit: (task: TTaskUpdate)
   document.getElementById('cancelEditBtn')?.addEventListener('click', onClose);
 
   const editTaskForm = document.getElementById('editTaskForm') as HTMLFormElement;
+  
   if (editTaskForm) {
     editTaskForm.addEventListener('submit', (e: Event) => {
       e.preventDefault();
