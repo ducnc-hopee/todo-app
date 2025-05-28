@@ -1,18 +1,24 @@
+import { MODAL_TYPES } from "../../../constants/modals";
 import { state } from "../../../state/appState";
+import { publish } from "../../../utils/customEventPubSub";
+import { EVENTS } from "../../../constants/customEvent";
+import { EditModal } from "../EditModal";
+import { handleUpdateTask } from "./taskHandlers";
 
 export function openAddTaskModal() 
 {
     state.isAddModalOpen = true;
-    const addTaskModal = document.getElementById('addTaskModal') as HTMLDivElement;
+    const addTaskModal = document.getElementById(`modal-${MODAL_TYPES.ADD_TASK}`) as HTMLDivElement;
     if (addTaskModal) {
         addTaskModal.classList.add('active');
-        (document.getElementById('addTaskForm') as HTMLFormElement).reset();
     }
 }
 
 export function closeAddTaskModal() {
     state.isAddModalOpen = false;
-    const addTaskModal = document.getElementById('addTaskModal') as HTMLDivElement;
+    const addTaskModal = document.getElementById(`modal-${MODAL_TYPES.ADD_TASK}`) as HTMLDivElement;
+    console.log(addTaskModal);
+    
     if (addTaskModal) {
         addTaskModal.classList.remove('active');
     }   
@@ -20,20 +26,22 @@ export function closeAddTaskModal() {
 
 export function openEditModal(todoId: string) {
     const todo = state.todos.find((t) => t._id === todoId);
-    if (!todo) return;
+    if (!todo) {
+        console.error('Todo not found:', todoId);
+        return;
+    }
 
     state.currentTodo = todo;
     state.isEditModalOpen = true;
 
-    const editModal = document.getElementById('editModal') as HTMLDivElement;
-    if (editModal) {
-        const titleInput = editModal.querySelector('#editTaskTitle') as HTMLInputElement;
-        const descriptionInput = editModal.querySelector('#editTaskDescription') as HTMLTextAreaElement;
-
-        titleInput.value = todo.title;
-        descriptionInput.value = todo.description || '';
-
-        editModal.classList.add('active');
+    const editModalContainer = document.getElementById('editModalContainer');
+    if (editModalContainer) {
+        editModalContainer.innerHTML = EditModal({
+            open: true,
+            onClose: closeEditModal,
+            onSubmit: handleUpdateTask,
+            todo: todo
+        });
     }
 }
 
@@ -41,9 +49,14 @@ export function closeEditModal() {
     state.isEditModalOpen = false;
     state.currentTodo = null;
 
-    const editModal = document.getElementById('editModal') as HTMLDivElement;
-    if (editModal) {
-        editModal.classList.remove('active');
+    const editModalContainer = document.getElementById('editModalContainer');
+    if (editModalContainer) {
+        editModalContainer.innerHTML = EditModal({
+            open: false,
+            onClose: closeEditModal,
+            onSubmit: handleUpdateTask,
+            todo: null
+        });
     }
 }
 
@@ -77,5 +90,4 @@ export function closeViewModal() {
     if (viewModal) {
         viewModal.classList.remove('active');
     }
-
 }

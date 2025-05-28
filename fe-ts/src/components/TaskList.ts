@@ -1,5 +1,9 @@
 import { Todo } from '../service/dtos/responses/todo.response';
 import { TABS } from "../constants/tab";
+import { componentMounted } from "../utils/componentMounted";
+import { subscribe } from '../utils/customEventPubSub';
+import { EVENTS } from '../constants/customEvent';
+import { openEditModal } from './modals/handlers/modalHandlers';
 
 type TaskListProps = {
   todos: Todo[];
@@ -8,34 +12,50 @@ type TaskListProps = {
   onShowOptions: (event: MouseEvent, todoId: string) => void;
 };
 
-export function TaskList({ todos, filter, onToggleComplete, onShowOptions }: TaskListProps): void {
-  const todoListContainer = document.getElementById('todoListContainer');
-  if (!todoListContainer) return;
+subscribe(EVENTS.OPEN_EDIT_MODAL, openEditModal);
 
-  const filteredTodos = todos.filter((todo) => {
-    switch (filter) {
-      case TABS.ALL:
-        return true;
-      case TABS.COMPLETE:
-        return todo.isCompleted;
-      case TABS.INCOMPLETE:
-        return !todo.isCompleted;
-      default:
-        return true;
-    }
-  });
+export function TaskList({ 
+  todos = [], 
+  filter = 'all', 
+  onToggleComplete = () => {}, 
+  onShowOptions = () => {} 
+}: Partial<TaskListProps> = {}) {
+  const editModalContainer = document.getElementById('editModalContainer');
+  if (!editModalContainer) return;
 
-  let html = '<div class="todo-list">';
+  let removeListeners: Function[] = [];
+  const validTodos = todos.filter(todo => todo && todo._id)
 
-  if (filteredTodos.length === 0) {
-    html += `
+  const getFilteredTodos = () => {
+    return validTodos.filter((todo) => {
+      switch (filter) {
+        case TABS.ALL:
+          return true;
+        case TABS.COMPLETE:
+          return todo.isCompleted;
+        case TABS.INCOMPLETE:
+          return !todo.isCompleted;
+        default:
+          return true;
+      }
+    });
+  };
+
+  const renderHTML = () => {
+    const filteredTodos = getFilteredTodos();
+
+    let html = '<div class="todo-list">';
+
+    if (filteredTodos.length === 0) {
+      html += `
       <div class="empty-state">
         <p>No tasks found</p>
       </div>
     `;
-  } else {
-    filteredTodos.forEach((todo) => {
-      html += `
+    }
+    else {
+      filteredTodos.forEach((todo) => {
+        html += `
         <div class="todo-item ${todo.isCompleted ? 'completed' : ''}" data-id="${todo._id}">
           <div class="todo-checkbox">
             <label>
@@ -58,24 +78,40 @@ export function TaskList({ todos, filter, onToggleComplete, onShowOptions }: Tas
           </div>
         </div>
       `;
+      });
+    }
+
+    html += '</div>';
+    editModalContainer.innerHTML = html;
+  };
+
+  const setupEventListeners = () => {
+    removeAllListeners();
+
+    const filteredTodos = getFilteredTodos();
+    filteredTodos.forEach((todo) => {
+      const todoItem = editModalContainer.querySelector(`.todo-item[data-id="${todo._id}"]`);
+      if (!todoItem) return;
+
+      const checkbox = todoItem.querySelector('input[type="checkbox"]') as HTMLInputElement;
+      const menuBtn = todoItem.querySelector('.todo-menu-btn') as HTMLButtonElement;
+
+      const checkboxHandler = () => onToggleComplete(todo._id, checkbox.checked);
+      const menuBtnHandler = (e: MouseEvent) => onShowOptions(e, todo._id);
+
+      checkbox?.addEventListener('change', checkboxHandler);
+      menuBtn?.addEventListener('click', menuBtnHandler);
     });
-  }
+  };
 
-  html += '</div>';
-  todoListContainer.innerHTML = html;
+  const removeAllListeners = () => {
+    removeListeners.forEach(remove => remove());
+    removeListeners = [];
+  };
 
-  filteredTodos.forEach((todo) => {
-    const todoItem = todoListContainer.querySelector(`.todo-item[data-id="${todo._id}"]`);
-    if (!todoItem) return;
+  componentMounted (() => {
+    setupEventListeners();
+  })
 
-    const checkbox = todoItem.querySelector('input[type="checkbox"]') as HTMLInputElement | null
-    if (checkbox) {
-      checkbox.addEventListener('change', () => onToggleComplete(todo._id, checkbox.checked));
-    }
-
-    const menuBtn = todoItem.querySelector('.todo-menu-btn') as HTMLButtonElement | null;   
-    if (menuBtn) {
-      menuBtn.addEventListener('click', (e: MouseEvent) => onShowOptions(e, todo._id));
-    }
-  });
+  renderHTML();
 }

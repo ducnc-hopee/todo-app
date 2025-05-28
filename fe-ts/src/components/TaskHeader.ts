@@ -1,7 +1,44 @@
-export function TaskHeader({ onAddClick }: { onAddClick: () => void }) {
-  const taskHeaderContainer = document.getElementById('taskHeaderContainer') as HTMLDivElement;
+import { componentMounted } from "../utils/componentMounted";
+import { AddTaskModal } from "./modals/AddTaskModal";
+import { handleAddTask } from "./modals/handlers/taskHandlers";
 
-  taskHeaderContainer.innerHTML = `
+export function TaskHeader() {
+  const taskHeaderContainer = document.getElementById('taskHeaderContainer') as HTMLDivElement;
+  let isOpenModal = false;
+  let listenerRemoveCb: Function | null = null;
+  
+  componentMounted(() => {
+    listenerRemoveCb = listenerClickBtn();
+  })
+
+  const handleOpenAddTaskModal = () => {
+     if(listenerRemoveCb) listenerRemoveCb();
+    isOpenModal = true;
+    renderHTML();
+    listenerClickBtn();
+  }
+
+  const handlerCloseAddTaskModal = () => {
+    if(listenerRemoveCb) listenerRemoveCb();
+    isOpenModal = false;
+    renderHTML();
+    listenerClickBtn();
+  }
+
+
+  const listenerClickBtn = () => {
+    const domClick = document.getElementById('addTaskBtn')
+    domClick!.addEventListener('click', handleOpenAddTaskModal);
+
+    function removeEventListener() {
+      domClick!.removeEventListener('click', handleOpenAddTaskModal);
+    }
+    return removeEventListener;
+  }
+
+  const renderHTML = () => {
+    const addTaskModalHTML = AddTaskModal({ onClose: handlerCloseAddTaskModal, open: isOpenModal, onSubmit: handleAddTask });
+    taskHeaderContainer.innerHTML = `
     <div class="task-header">
       <h2>My Tasks</h2>
       <button class="add-task-btn" id="addTaskBtn">
@@ -10,8 +47,10 @@ export function TaskHeader({ onAddClick }: { onAddClick: () => void }) {
         </svg>
         Add Task
       </button>
+      ${addTaskModalHTML}
     </div>
   `;
-
-  document.getElementById('addTaskBtn')!.addEventListener('click', onAddClick);
+  }
+  renderHTML()
 }
+

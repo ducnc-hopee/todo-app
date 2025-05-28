@@ -1,55 +1,101 @@
-import { TTaskUpdate } from "../../types/taskUpdate";
+import type { TTaskUpdate } from "../../types/taskUpdate"
+import type { TTodo } from "../../types/todo"
+import { componentMounted } from "../../utils/componentMounted"
+import { BaseModal } from "./BaseModal"
 
-export function EditModal({ onSubmit, onClose }: { onSubmit: (task: TTaskUpdate) => void; onClose: () => void }) {
-  const editModalContainer = document.getElementById('editModalContainer') as HTMLDivElement;
+type TEditTaskModalProps = {
+  open: boolean
+  onClose: () => void
+  onSubmit: (task: TTaskUpdate) => void
+  todo: TTodo | null
+}
 
-  if (!editModalContainer) {
-    console.error('Không tìm thấy phần tử với ID "editModalContainer"');
-    return;
+export function EditModal({ open, onClose, onSubmit, todo }: TEditTaskModalProps) {
+  const modalId = Math.random().toString(36).substring(2, 15)
+
+  const handleCloseModal = () => {
+    const form = document.getElementById(`editTaskForm-${modalId}`) as HTMLFormElement
+    if (form) {
+      form.reset()
+    }
+    onClose()
   }
 
-  editModalContainer.innerHTML = `
-    <div class="dialog-overlay" id="editModal">
-      <div class="dialog">
-        <div class="dialog-header">
-          <h3>Edit Task</h3>
-          <button class="close-btn" id="closeEditDialog">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
-              <path d="M18 6 6 18M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <form id="editTaskForm">
-          <div class="form-group">
-            <label for="editTaskTitle">Title</label>
-            <input type="text" id="editTaskTitle" class="input" placeholder="Enter task title" required>
-          </div>
-          <div class="form-group">
-            <label for="editTaskDescription">Description</label>
-            <textarea id="editTaskDescription" class="textarea" placeholder="Enter task description"></textarea>
-          </div>
-          <div class="dialog-footer">
-            <button type="button" class="btn-secondary" id="cancelEditBtn">Cancel</button>
-            <button type="submit" class="btn-primary">Update Task</button>
-          </div>
-        </form>
+  const handleSubmit = () => {
+    if (!todo || !todo._id) {
+      console.error("No task selected for editing")
+      return
+    }
+
+    const titleElement = document.getElementById(`editTaskTitle-${modalId}`) as HTMLInputElement
+    const descriptionElement = document.getElementById(`editTaskDescription-${modalId}`) as HTMLTextAreaElement
+
+    if (!titleElement || !descriptionElement) {
+      console.error("Form elements not found")
+      return
+    }
+
+    const title = titleElement.value.trim()
+    const description = descriptionElement.value.trim()
+
+    if (!title) {
+      alert("Title is required")
+      titleElement.focus()
+      return
+    }
+
+    onSubmit({ title, description })
+    handleCloseModal()
+  }
+
+  componentMounted(() => {
+    const cancelBtn = document.getElementById(`cancelEditBtn-${modalId}`)
+    const form = document.getElementById(`editTaskForm-${modalId}`)
+
+    if (cancelBtn) {
+      cancelBtn.addEventListener("click", handleCloseModal)
+    }
+
+    if (form) {
+      form.addEventListener("submit", (e: Event) => {
+        e.preventDefault()
+        handleSubmit()
+      })
+    }
+  })
+
+  const contentHTML = `
+    <form id="editTaskForm-${modalId}">
+      <div class="form-group">
+        <label for="editTaskTitle-${modalId}">Title</label>
+        <input 
+          type="text" 
+          id="editTaskTitle-${modalId}" 
+          class="input" 
+          placeholder="Enter task title" 
+          required 
+          value="${todo?.title || ""}"
+        >
       </div>
-    </div>
-  `;
+      <div class="form-group">
+        <label for="editTaskDescription-${modalId}">Description</label>
+        <textarea 
+          id="editTaskDescription-${modalId}" 
+          class="textarea" 
+          placeholder="Enter task description"
+        >${todo?.description || ""}</textarea>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" class="btn-secondary" id="cancelEditBtn-${modalId}">Cancel</button>
+        <button type="submit" class="btn-primary">Update Task</button>
+      </div>
+    </form>
+  `
 
-  document.getElementById('closeEditDialog')?.addEventListener('click', onClose);
-  document.getElementById('cancelEditBtn')?.addEventListener('click', onClose);
-
-  const editTaskForm = document.getElementById('editTaskForm') as HTMLFormElement;
-  
-  if (editTaskForm) {
-    editTaskForm.addEventListener('submit', (e: Event) => {
-      e.preventDefault();
-
-      const title = (document.getElementById('editTaskTitle') as HTMLInputElement).value;
-      const description = (document.getElementById('editTaskDescription') as HTMLTextAreaElement).value;
-
-      onSubmit({ title, description });
-    });
-  }
+  return BaseModal({
+    title: "Edit Task",
+    open,
+    onClose: handleCloseModal,
+    contentHTML
+  })
 }

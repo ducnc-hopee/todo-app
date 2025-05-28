@@ -1,22 +1,43 @@
+import { MODAL_TYPES } from "../../constants/modals";
 import { TTask } from "../../types/task";
+import { componentMounted } from "../../utils/componentMounted";
+import { BaseModal } from "./BaseModal";
+
+type TAddTaskModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: (task: TTask) => void;
+}
+
+export function AddTaskModal({
+  open,
+  onClose,
+  onSubmit,
+}: TAddTaskModalProps) {
+
+  const handleCloseModal = () => {
+    (document.getElementById(`addTaskForm`) as HTMLFormElement).reset();
+    onClose();
+  }
+
+  componentMounted(() => {
+    document.getElementById(`cancelAddTaskBtn`)?.addEventListener("click", handleCloseModal);
+    document.getElementById(`addTaskForm`)?.addEventListener("submit", (e: Event) => {
+      e.preventDefault();
+      handleSubmit();
+    });
+  })
 
 
-export function AddTaskModal({ onSubmit, onClose }: { onSubmit: (task: TTask) => void; onClose: () => void }) 
-{
-  const addTaskModalContainer = document.getElementById('addTaskModalContainer') as HTMLDivElement;
+  const handleSubmit = () => {
+    const title = (document.getElementById('taskTitle') as HTMLInputElement).value;
+    const description = (document.getElementById('taskDescription') as HTMLTextAreaElement).value;
+    onSubmit({ title, description, isCompleted: false });
+    handleCloseModal();
+  }
 
-  addTaskModalContainer.innerHTML = `
-    <div class="dialog-overlay" id="addTaskModal">
-      <div class="dialog">
-        <div class="dialog-header">
-          <h3>Add New Task</h3>
-          <button class="close-btn" id="closeAddTaskDialog">
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x">
-              <path d="M18 6 6 18M6 6l12 12"></path>
-            </svg>
-          </button>
-        </div>
-        <form id="addTaskForm">
+  const contentHTML = `
+  <form id="addTaskForm">
           <div class="form-group">
             <label for="taskTitle">Title</label>
             <input type="text" id="taskTitle" class="input" placeholder="Enter task title" required>
@@ -30,23 +51,11 @@ export function AddTaskModal({ onSubmit, onClose }: { onSubmit: (task: TTask) =>
             <button type="submit" class="btn-primary">Add Task</button>
           </div>
         </form>
-      </div>
-    </div>
-  `;
-
-  document.getElementById("closeAddTaskDialog")?.addEventListener("click", onClose);
-  document.getElementById("cancelAddTaskBtn")?.addEventListener("click", onClose);
-
-  const addTaskForm = document.getElementById('addTaskForm') as HTMLFormElement;
-  if (addTaskForm) {
-    addTaskForm.addEventListener('submit', (e: Event) => {
-      e.preventDefault();
-
-      const title = (document.getElementById('taskTitle') as HTMLInputElement).value;
-      const description = (document.getElementById('taskDescription') as HTMLTextAreaElement).value;
-
-      onSubmit({ title, description, isCompleted: false });
-    });
-  }
-
+        `
+  return BaseModal({
+    title: "Add Task",
+    open,
+    onClose: handleCloseModal,
+    contentHTML,
+  })
 }
