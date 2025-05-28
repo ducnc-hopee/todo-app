@@ -6,7 +6,7 @@ import { BaseModal } from "./BaseModal"
 type TEditTaskModalProps = {
   open: boolean
   onClose: () => void
-  onSubmit: (task: TTaskUpdate) => void
+  onSubmit: (task: TTaskUpdate) => Promise<void>
   todo: TTodo | null
 }
 
@@ -21,7 +21,7 @@ export function EditModal({ open, onClose, onSubmit, todo }: TEditTaskModalProps
     onClose()
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!todo || !todo._id) {
       console.error("No task selected for editing")
       return
@@ -44,7 +44,7 @@ export function EditModal({ open, onClose, onSubmit, todo }: TEditTaskModalProps
       return
     }
 
-    onSubmit({ title, description })
+    await onSubmit({ title, description })
     handleCloseModal()
   }
 

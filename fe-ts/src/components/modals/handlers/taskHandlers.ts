@@ -45,7 +45,6 @@ export async function handleUpdateTask(formData: { title: string; description: s
       .map((todo) => todo._id === state.currentTodo!._id ? { ...todo, ...formData } : todo);
     
     renderTodoList();
-    closeEditModal();
   } catch (error) {
     console.error('Error updating todo:', error);
     // You might want to show an error message to the user here
