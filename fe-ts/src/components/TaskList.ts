@@ -20,8 +20,8 @@ export function TaskList({
   onToggleComplete = () => {}, 
   onShowOptions = () => {} 
 }: Partial<TaskListProps> = {}) {
-  const editModalContainer = document.getElementById('editModalContainer');
-  if (!editModalContainer) return;
+  const todoListContainer = document.getElementById('todoListContainer');
+  if (!todoListContainer) return;
 
   let removeListeners: Function[] = [];
   const validTodos = todos.filter(todo => todo && todo._id)
@@ -82,7 +82,7 @@ export function TaskList({
     }
 
     html += '</div>';
-    editModalContainer.innerHTML = html;
+    todoListContainer.innerHTML = html;
   };
 
   const setupEventListeners = () => {
@@ -90,7 +90,7 @@ export function TaskList({
 
     const filteredTodos = getFilteredTodos();
     filteredTodos.forEach((todo) => {
-      const todoItem = editModalContainer.querySelector(`.todo-item[data-id="${todo._id}"]`);
+      const todoItem = todoListContainer.querySelector(`.todo-item[data-id="${todo._id}"]`);
       if (!todoItem) return;
 
       const checkbox = todoItem.querySelector('input[type="checkbox"]') as HTMLInputElement;
@@ -109,9 +109,9 @@ export function TaskList({
     removeListeners = [];
   };
 
-  componentMounted (() => {
+  componentMounted(() => {
     setupEventListeners();
-  })
+  });
 
   renderHTML();
 }

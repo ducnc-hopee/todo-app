@@ -37,25 +37,24 @@ export async function handleUpdateTask(formData: { title: string; description: s
   try {
     const updatedTodo = await todoService.updateTodo(state.currentTodo._id, formData);
     if (!updatedTodo || !updatedTodo._id) {
-      throw new Error('Failed to update todo: No response from server');
+      throw new Error('Failed to update todo: Invalid response from server');
     }
+
+    state.todos = state.todos.map((todo) => 
+      todo._id === state.currentTodo!._id ? updatedTodo : todo
+    );
     
-    state.todos = state.todos
-      .filter(todo => todo && todo._id)
-      .map((todo) => todo._id === state.currentTodo!._id ? { ...todo, ...formData } : todo);
     
     renderTodoList();
   } catch (error) {
     console.error('Error updating todo:', error);
-    // You might want to show an error message to the user here
+    alert('Failed to update task. Please try again.');
   }
 }
 
 export async function deleteTodo(todoId: string) {
   if (!confirm('Are you sure you want to delete this task?')) return;
 
-  console.log(state.todos);
-  
   try {
     await todoService.deleteTodo(todoId);
     state.todos = state.todos.filter((todo) => todo._id !== todoId);

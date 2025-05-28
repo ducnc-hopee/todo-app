@@ -6,10 +6,8 @@ import { initModal } from "./modals/helpers/initModal";
 
 import { fetchTodos } from "./modals/handlers/taskHandlers";
 import {
-  openEditModal,
   closeViewModal,
   openViewModal,
-  closeEditModal,
 } from "./modals/handlers/modalHandlers";
 import { changeFilter } from "./modals/handlers/uiHandlers";
 import { state } from "../state/appState";
@@ -42,12 +40,10 @@ export function renderApp() {
 
   Tabs({ currentFilter: state.currentFilter, onFilterChange: changeFilter });
   TaskHeader();
-  TaskList({todos: state.todos, filter: state.currentFilter});
+  TaskList();
 
   initModal(ViewTaskModal, { onClose: closeViewModal });
 
-  
-  
   subscribe(EVENTS.OPEN_VIEW_MODAL, openViewModal);
 
   document.addEventListener("click", (e: MouseEvent) => {

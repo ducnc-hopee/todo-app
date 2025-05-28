@@ -1,7 +1,7 @@
 import { MODAL_TYPES } from "../../../constants/modals";
 import { state } from "../../../state/appState";
-import { publish } from "../../../utils/customEventPubSub";
-import { EVENTS } from "../../../constants/customEvent";
+// import { publish } from "../../../utils/customEventPubSub";
+// import { EVENTS } from "../../../constants/customEvent";
 import { EditModal } from "../EditModal";
 import { handleUpdateTask } from "./taskHandlers";
 
