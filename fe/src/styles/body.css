@@ -1,0 +1,36 @@
+.tab-container-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem; /* Optional: space on left/right of screen */
+  flex-direction: column;
+}
+
+.task-tabs {
+  display: flex;
+  width: 90%;
+  background: grey;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0 auto 20px auto;
+}
+
+.complete-tab {
+  flex: 1;
+  padding: 12px 0;
+  text-align: center;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.incomplete-tab {
+  flex: 1;
+  padding: 12px 0;
+  text-align: center;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: white;
+}
