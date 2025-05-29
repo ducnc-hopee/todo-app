@@ -2,7 +2,7 @@
 
 export function taskMenuEdit(task) {
   return `
-    <div class="modal-overlay">
+    <div id="edit-modal" class="modal-overlay">
       <div class="modal">
         <div class="modal-header">
           <h2>Edit Task</h2>

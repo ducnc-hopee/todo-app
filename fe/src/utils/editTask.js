@@ -15,13 +15,13 @@ export function setupEditTask(taskItem, task) {
   // When the edit button is clicked
   editBtn.addEventListener("click", () => {
     // Remove any previously opened edit modal
-    const existingModal = document.querySelector(".modal-overlay");
-    if (existingModal) existingModal.remove();
+    // const existingModal = document.querySelector(".modal-overlay");
+    // if (existingModal) existingModal.remove();
 
     // Insert the edit modal into the body
     document.body.insertAdjacentHTML("beforeend", taskMenuEdit(task));
 
-    const editModal = document.querySelector(".modal-overlay");
+    const editModal = document.getElementById("edit-modal");
     const closeButtons = editModal.querySelectorAll(
       ".modal-close, .close-edit-btn"
     );
