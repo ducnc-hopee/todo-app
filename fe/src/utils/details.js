@@ -154,7 +154,7 @@ export function saveChanges() {
           displayComplete();
         }
       } catch (err) {
-        console.error("Error displaying task details:", error);
+        console.error("Error displaying task details:", err);
         alert("Failed to load task details. Please try again later.");
       }
     }

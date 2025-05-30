@@ -86,7 +86,7 @@ export async function displayComplete() {
     editViewDetails();
     saveChanges();
   } catch (err) {
-    console.error("Error displaying completed tasks", error);
+    console.error("Error displaying completed tasks", err);
     alert("Failed to load tasks. Please try again later.");
   }
 }
