@@ -1,4 +1,4 @@
-export function renderBody() {
+export function renderBody() : string {
   return `
   <div class="tab-container-wrapper">
     <div class="task-tabs">

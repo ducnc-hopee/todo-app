@@ -1,0 +1,17 @@
+@import'./header.css';
+@import'./body.css';
+@import'./taskHandlers';
+@import'./taskMenu';
+@import'./taskMenudetails';
+body{
+  font-family: "Inter", sans-serif;
+  background-color: #fefbf8;
+  color: #1a1a1a;
+  line-height: 1.6;
+  
+}
+
+h1,h2,h3,h4,h5,h6, strong{
+  font-family: 'Merriweather,serif';
+}
+

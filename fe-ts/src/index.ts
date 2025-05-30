@@ -1,7 +1,7 @@
-import { renderBody } from './components/body.js';
-import { renderHeader } from './components/header.js';
-import { setupCreateTaskHandler } from './utils/addTask.js'
-import { setupTabSwitching } from './components/CompleteTabSwitch.js';
+import { renderBody } from './components/body';
+import { renderHeader } from './components/header';
+import { setupCreateTaskHandler } from './utils/addTask'
+import { setupTabSwitching } from './components/CompleteTabSwitch';
 import './styles/main.css';
 
 const app = document.getElementById('app');
@@ -16,7 +16,6 @@ app.innerHTML = `
 setupCreateTaskHandler(); // ✅ Add event listeners after DOM is created
 setupTabSwitching();
 
-renderToggletask();
 initApp(); // call you setup logic
 
 }

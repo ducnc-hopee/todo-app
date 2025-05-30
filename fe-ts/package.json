@@ -1,0 +1,36 @@
+{
+  "name": "fe-fundamental-1",
+  "version": "1.0.0",
+  "description": "## Table of contents - [Getting Started](readme/get-started.md) - [Coding conventions](readme/coding-conventions.md) - [Git flow](readme/git-flow.md) - [Tips](readme/tips.md)",
+  "main": "index.ts",
+  "scripts": {
+    "start": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.27.1",
+    "@babel/preset-env": "^7.27.2",
+    "babel-loader": "^10.0.0",
+    "css-loader": "^7.1.2",
+    "globals": "^16.1.0",
+    "html-webpack-plugin": "^5.6.3",
+    "style-loader": "^4.0.0",
+    "ts-loader": "^9.5.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3",
+    "webpack": "^5.99.9",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.1"
+  },
+  "compilerOptions": {
+    "outDir": "./dist",
+    "module": "ESNext",
+    "target": "ES5",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "strict": true
+  }
+}
