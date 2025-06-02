@@ -1,3 +1,5 @@
+
+
 import {
   createTodo,
   getTodos,
@@ -48,7 +50,7 @@ export function setupCreateTaskHandler(): void {
       }
 
       try {
-        const rs = await createTodo({ title, description });
+        const rs = await createTodo({ title, description, isCompleted: false });
         const incompleteList = document.querySelector(".incomplete-list") as HTMLElement | null;
 
         if (incompleteList) {

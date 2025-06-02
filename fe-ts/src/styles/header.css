@@ -128,3 +128,9 @@
   display: flex;
   opacity: 1;
 }
+
+.complete-list .task-title,
+.complete-list .task-desc {
+  text-decoration: line-through;
+  color: #222;
+}

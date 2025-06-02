@@ -38,6 +38,7 @@
   font-weight: 500;
   color: black;
   font-size: large;
+  text-decoration: none;
 }
 
 .undo-btn .tick, 
