@@ -7,9 +7,6 @@
 @import './Tabs.css';
 
 
-
-
-/* Base styles with shadcn/ui-inspired design */
 :root {
   --background: #ffffff;
   --foreground: #09090b;
@@ -52,7 +49,6 @@ body {
   padding: 2rem;
 }
 
-/* Common button styles */
 .btn-primary {
   background-color: var(--primary);
   color: var(--primary-foreground);
@@ -85,7 +81,6 @@ body {
   background-color: #e4e4e7;
 }
 
-/* Form elements */
 .form-group {
   margin-bottom: 1rem;
 }
@@ -118,7 +113,6 @@ label {
   resize: vertical;
 }
 
-/* Dropdown Menu */
 .dropdown-menu {
   position: absolute;
   background-color: var(--popover);

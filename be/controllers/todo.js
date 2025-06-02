@@ -168,7 +168,7 @@ exports.updateTodo = (req, res, next) => {
         )
 }
 
-// To Mark todo Complete
+// To Mark todo Complete/Incomplete
 exports.completeTodo = (req, res, next) => {
     // Log This Request
     console.log(
@@ -179,28 +179,32 @@ exports.completeTodo = (req, res, next) => {
 
     // Get Todo Id to modify
     const todoId = req.params.todoId;
+    const isCompleted = req.body.isCompleted;
+
 
     // Execute Update
     Todo.findOneAndUpdate({
             _id: todoId
         }, {
-            'isCompleted': true,
+            'isCompleted': isCompleted,
             'timestamps.modifiedOn': Date.now(),
-            'timestamps.completedOn': Date.now()
+            'timestamps.completedOn': isCompleted ? Date.now() : null
         }, {
             new: true
         })
         .then(
             updatedTodo => {
+           
                 res.status(201).json({
                     'status': 'Success',
-                    'message': 'Todo Marked as Completed!',
+                    'message': `Todo ${isCompleted ? 'Marked as Completed' : 'Marked as Incomplete'}!`,
                     'todo': updatedTodo
                 })
             }
         )
         .catch(
             error => {
+              
                 res.status(500).json({
                     'status': 'Error',
                     'message': 'Error in DB Operation!',

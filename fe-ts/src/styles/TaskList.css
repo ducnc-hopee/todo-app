@@ -1,0 +1,108 @@
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-color: var(--card);
+  transition: box-shadow 0.2s;
+}
+
+.todo-item:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.todo-checkbox {
+  margin-right: 1rem;
+  position: relative;
+}
+
+.todo-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.todo-checkbox input:checked ~ .checkmark {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.todo-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.todo-content {
+  flex: 1;
+}
+
+.todo-title {
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.todo-description {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.todo-item.completed .todo-title {
+  text-decoration: line-through;
+  color: var(--muted-foreground);
+}
+
+.todo-actions {
+  margin-left: auto;
+}
+
+.todo-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted-foreground);
+  padding: 0.25rem;
+  border-radius: var(--radius);
+  transition: background-color 0.2s;
+}
+
+.todo-menu-btn:hover {
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: var(--muted-foreground);
+}
