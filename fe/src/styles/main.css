@@ -1,3 +1,37 @@
-h1 {
-  color: red;
+@import './header.css';
+@import './tabs.css';
+@import './task.css';
+@import './details.css';
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #fff;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6, strong {
+    font-family: 'Merriweather', serif;
+}
+
+@media (min-width: 768px) {
+    .nav {
+        display: flex;
+    }
+
+    .hero {
+        flex-direction: row;
+        align-items: flex-start;
+    }
+}
+
+@media (min-width: 1024px) {
+    .nav {
+        padding: 24px 48px;
+    }
+
+    .main {
+        padding: 24px 48px;
+    }
+
 }

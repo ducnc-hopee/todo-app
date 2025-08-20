@@ -4,9 +4,9 @@ services:
     image: mongo
     container_name: mongo_db
     ports:
-      - '27017:27017'
+      - '27010:27017'
     volumes:
-      - mongo_data:/data/db
+      - ./mongo_data:/data/db  # Bind-mount to a local folder
   server:
     build: .
     container_name: todo_api
@@ -15,9 +15,7 @@ services:
     depends_on:
       - mongo
     environment:
-      - MONGO_URI=mongodb://mongo:27017/todo_db
+      - MONGO_URI=mongodb://mongo_db:27017/todo_db
     volumes:
       - .:/usr/src/app
     command: npm start
-volumes:
-  mongo_data:
