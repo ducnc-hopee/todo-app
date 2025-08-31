@@ -1,0 +1,29 @@
+.task-tabs {
+  display: flex;
+  background-color: #f3f3f3;
+  border-radius: 8px;
+  overflow: hidden;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  width: 1800px;
+}
+
+.task-tabs button {
+  flex: 1;
+  padding: 20px 20px;
+  background-color: transparent;
+  color: #555;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: large;
+  border-radius: 10px;
+}
+
+.task-tabs button.active {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+}
+

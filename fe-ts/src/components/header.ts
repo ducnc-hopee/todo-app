@@ -1,4 +1,4 @@
-export function renderHeader() {
+export function renderHeader(): string {
   return `
     <div class="header">
         <h1 class= "title"> Todo App</h1>
